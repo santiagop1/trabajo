@@ -1,12 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+  
+{% extends 'layouts/base.html' %}
+
+{% block titulo %}
+    Editar
+{% endblock %}
+
+{% block contenido %}
+    <h1>Editar producto</h1>
+    <a href="{{url_for('productos')}}">Volver</a>
+    <form action="{{ url_for('editar_producto', id=producto[0]) }}" method="POST">
+        <div class="mb-3">
+            <label for="nombre">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" value="{{producto[1]}}" required>
+        </div>
+        <div class="mb-3">
+            <label for="descripcion">Descripcion</label>
+            <textarea type="text" class="form-control" id="descripcion" name="descripcion" required>{{producto[2]}}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="precioCompra">Precio de compra</label>
+            <input type="number" class="form-control" id="precioCompra" name="precioCompra" value="{{producto[3]}}" required>
+        </div>
+        <div class="mb-3">
+            <label for="precioVenta">Precio de venta</label>
+            <input type="number" class="form-control" id="precioVenta" name="precioVenta" value="{{producto[4]}}" required>
+        </div>
+        <div class="mb-3">
+            <label for="ganancia">Ganancia (%)</label>
+            <input type="number" class="form-control" id="ganancia" name="ganancia" value="{{producto[5]}}" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="estado">Estado</label>
+            <select class="form-select" id="estado" name="estado" value="{{producto[6]}}">
+                {% if producto[6] == 1 %}
+                <option selected value="1">Activo</option>
+                <option value="0">Inactivo</option>
+                {% else  %}
+                <option selected value="0">Inactivo</option>
+                <option value="1">Activo</option>
+                {% endif %}
+                
+                
+                
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Guardar</button>
+    </form>
+
+    <script>
+        let inputPrecioCompra = document.querySelector('#precioCompra')
+        let inputPrecioVenta = document.querySelector('#precioVenta')
+        let inputGanancia = document.querySelector('#ganancia')
+
+     inputPrecioCompra.addEventListener('change', cambioPrecioCompra)
+    function cambioPrecioCompra(e){
+        console.log('Cambiando precio compra')
+    }
+
+    inputPrecioVenta.addEventListener('change', cambioPrecioVenta)
+    function cambioPrecioVenta(e){
+        console.log('Cambiando precio de venta')
+        let precio_venta = parseInt(inputPrecioVenta.value)
+        let precio_compra = parseInt(inputPrecioCompra.value)
+        let ganancia = (((precio_venta - precio_compra)/precio_compra)*100).toFixed(0)
+        inputGanancia.value = ganancia
+        
+    }
+
+    inputGanancia.addEventListener('change', cambioGanancia)
+    function cambioGanancia(e){
+        let precio_compra = parseInt(inputPrecioCompra.value)
+        let ganancia = parseInt(inputGanancia.value)
+        let precio_venta = ((precio_compra * (ganancia/100)) + precio_compra).toFixed(0)
+        inputPrecioVenta.value = precio_venta
+    }
+        
+    </script>
+
+{% endblock %}

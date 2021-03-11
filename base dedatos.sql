@@ -12,36 +12,31 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
--- Volcando estructura de base de datos para tienda
-CREATE DATABASE IF NOT EXISTS `tienda` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `tienda`;
+-- Volcando estructura de base de datos para flask_mvc
+CREATE DATABASE IF NOT EXISTS `flask_mvc` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `flask_mvc`;
 
--- Volcando estructura para tabla tienda.categorias
-CREATE TABLE IF NOT EXISTS `categorias` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `categorias_nombre_unique` (`nombre`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- La exportación de datos fue deseleccionada.
-
--- Volcando estructura para tabla tienda.productos
+-- Volcando estructura para tabla flask_mvc.productos
 CREATE TABLE IF NOT EXISTS `productos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `codigo` varchar(50) DEFAULT NULL,
   `nombre` varchar(255) NOT NULL,
-  `descripcion` text DEFAULT NULL,
-  `precio_venta` float(14,2) NOT NULL,
-  `precio_compra` float(14,2) NOT NULL,
-  `activo` tinyint(1) DEFAULT 1 COMMENT '1 = Activo, 0 = Inactivo',
-  `categoria_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `productos_categorias_fk` (`categoria_id`),
-  CONSTRAINT `productos_categorias_fk` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `descripcion` varchar(255) DEFAULT NULL,
+  `precio_compra` float(14,2) DEFAULT NULL,
+  `precio_venta` float(14,2) DEFAULT NULL,
+  `ganancia` float(14,2) DEFAULT NULL,
+  `estado` tinyint(1) DEFAULT NULL COMMENT '1 = activo, 0 = inactivo',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla flask_mvc.productos: ~21 rows (aproximadamente)
+/*!40000 ALTER TABLE `productos` DISABLE KEYS */;
+INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `precio_compra`, `precio_venta`, `ganancia`, `estado`) VALUES
+	(1, 'sandia', 'sandia roja', 4000.00, 5000.00, 10.00, 1),
+	(2, 'melon', 'melo de 5k', 5890.00, 6700.00, 18.00, 0),
+	(3, 'fresa', 'fresas rojas x24', 3000.00, 3800.00, 18.00, 0),
+	(4, 'uvas', 'uvas moradas x24', 3200.00, 3700.00, 17.00, 1),
+	(5, 'ciruela', 'ciruela por libra', 2000.00, 2300.00, 23.00, 1);
+/*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

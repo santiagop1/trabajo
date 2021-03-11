@@ -1,41 +1,74 @@
 {% extends 'layouts/base.html' %}
 
 {% block titulo %}
-    Crear producto
+    Crear
 {% endblock %}
 
 {% block contenido %}
     <h1>Crear producto</h1>
-    <a href="{{ url_for('productos') }}">Volver</a>
-
+    <a href="{{url_for('productos')}}">Volver</a>
     <form action="{{ url_for('crear_producto') }}" method="POST">
-        <div class="form-group">
+        <div class="mb-3">
             <label for="nombre">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre">
-        </div>
-        <div class="form-group">
-            <label for="descripcion">Descripcion</label>
-            <input type="text" class="form-control" id="descripcion" name="descripcion">
-        </div>
-        <div class="form-group">
-            <label for="precioVenta">Precio venta</label>
-            <input type="text" class="form-control" id="precioVenta" name="precioVenta">
-        </div>
-        <div class="form-group">
-            <label for="precioCompra">Precio compra</label>
-            <input type="text" class="form-control" id="precioCompra" name="precioCompra">
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
         </div>
         <div class="mb-3">
+            <label for="descripcion">Descripcion</label>
+            <textarea type="text" class="form-control" id="descripcion" name="descripcion" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="precioCompra">Precio de compra</label>
+            <input type="number" class="form-control" id="precioCompra" name="precioCompra" required>
+        </div>
+        <div class="mb-3">
+            <label for="precioVenta">Precio de venta</label>
+            <input type="number" class="form-control" id="precioVenta" name="precioVenta" required>
+        </div>
+        <div class="mb-3">
+            <label for="ganancia">Ganancia (%)</label>
+            <input type="number" class="form-control" id="ganancia" name="ganancia" required>
+        </div>
+        
+        <div class="mb-3">
             <label for="estado">Estado</label>
-            <select class="form-select" id="estado" name="estado">
-                <option selected>Seleccione</option>
+            <select class="form-select" id="estado" name="estado" required>
+                <option selected value="0">Seleccione</option>
                 <option value="1">Activo</option>
                 <option value="0">Inactivo</option>
                 
             </select>
         </div>
-        
-       
-        <button type="submit">Guardar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
+
+    <script>
+        let inputPrecioCompra = document.querySelector('#precioCompra')
+        let inputPrecioVenta = document.querySelector('#precioVenta')
+        let inputGanancia = document.querySelector('#ganancia')
+
+     inputPrecioCompra.addEventListener('change', cambioPrecioCompra)
+    function cambioPrecioCompra(e){
+        console.log('Cambiando precio compra')
+    }
+
+    inputPrecioVenta.addEventListener('change', cambioPrecioVenta)
+    function cambioPrecioVenta(e){
+        console.log('Cambiando precio de venta')
+        let precio_venta = parseInt(inputPrecioVenta.value)
+        let precio_compra = parseInt(inputPrecioCompra.value)
+        let ganancia = (((precio_venta - precio_compra)/precio_compra)*100).toFixed(0)
+        inputGanancia.value = ganancia
+        
+    }
+
+    inputGanancia.addEventListener('change', cambioGanancia)
+    function cambioGanancia(e){
+        let precio_compra = parseInt(inputPrecioCompra.value)
+        let ganancia = parseInt(inputGanancia.value)
+        let precio_venta = ((precio_compra * (ganancia/100)) + precio_compra).toFixed(0)
+        inputPrecioVenta.value = precio_venta
+    }
+        
+    </script>
+
 {% endblock %}

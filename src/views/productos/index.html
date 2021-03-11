@@ -1,11 +1,14 @@
+  
 {% extends 'layouts/base.html' %}
 
 {% block titulo %}
     Productos
 {% endblock %}
 
-{% block contenido %}
-    <h1>Listado de productos</h1>
+{% block contenido %} 
+    <h1>
+        Listado de productos
+    </h1>
     <a href="{{ url_for('crear_producto') }}">Crear</a>
     <table class="table table-bordered">
         <thead>
@@ -13,24 +16,28 @@
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Descripcion</th>
-                <th>Precio venta</th>
-                <th>Precio compra</th>
+                <th>Precio de compra </th>
+                <th>Precio de venta</th>
+                <th>Ganancia</th>
                 <th>Estado</th>
+                <th>Accion</th>
             </tr>
         </thead>
         <tbody>
             {% for producto in productos %}
             <tr>
-                <td>{{producto[0]}}</td>
+                <td>{{producto.0}}</td>
                 <td>{{producto[1]}}</td>
                 <td>{{producto[2]}}</td>
                 <td>{{producto[3]}}</td>
                 <td>{{producto[4]}}</td>
-                {% if producto[5] == 1 %}
+                <td>{{producto[5]}}</td>
+                {% if producto.6 == 1 %}
                 <td>Activo</td>
                 {% else %}
                 <td>Inactivo</td>
                 {% endif %}
+                <td><a href="{{ url_for('editar_producto',id = producto[0])}}"><button class="btn btn-success btn-sm">Editar</button></a></td>
             </tr>
             {% endfor %}
         </tbody>
